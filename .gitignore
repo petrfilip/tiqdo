@@ -1,0 +1,22 @@
+# Build
+.build/
+*.xcodeproj
+DerivedData/
+build/
+
+# Xcode
+*.xcuserdata
+*.xcworkspace
+xcuserdata/
+
+# macOS
+.DS_Store
+*.swp
+*.swo
+
+# IDE
+.idea/
+*.iml
+
+# Internal docs
+docs/
