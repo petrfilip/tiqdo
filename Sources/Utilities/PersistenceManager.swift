@@ -2,11 +2,18 @@ import Foundation
 import OSLog
 
 final class PersistenceManager {
+    static func migratePreferences(defaults: UserDefaults, from legacyDomain: String, to domain: String) {
+        guard defaults.persistentDomain(forName: domain)?.isEmpty != false,
+              let legacy = defaults.persistentDomain(forName: legacyDomain), !legacy.isEmpty else { return }
+        // Keep the old preferences so the previous installation still works.
+        defaults.setPersistentDomain(legacy, forName: domain)
+    }
+
     private let defaults = UserDefaults.standard
     private let legacyTabsKey = "tiqdo.tabs"
     private let legacyTasksKey = "tiqdo.tasks"
-    private let queue = DispatchQueue(label: "cz.fg.tiqdo.persistence", qos: .utility)
-    private let logger = Logger(subsystem: "cz.fg.tiqdo", category: "Persistence")
+    private let queue = DispatchQueue(label: "cz.tix.tiqdo.persistence", qos: .utility)
+    private let logger = Logger(subsystem: "cz.tix.tiqdo", category: "Persistence")
 
     private let directoryURL: URL
     private let tabsURL: URL

@@ -7,9 +7,12 @@ MODULE_CACHE_DIR="$BUILD_DIR/ModuleCache"
 APP_NAME="Tiqdo"
 APP_BUNDLE="$BUILD_DIR/$APP_NAME.app"
 INSTALL_DIR="${INSTALL_DIR:-/Applications}"
-BUNDLE_ID="cz.fg.tiqdo"
-APP_VERSION="1.0.0"
-BUILD_NUMBER="1"
+BUNDLE_ID="cz.tix.tiqdo"
+APP_VERSION="${APP_VERSION:-1.0.0}"
+BUILD_NUMBER="${BUILD_NUMBER:-1}"
+
+[[ "$APP_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "APP_VERSION must be X.Y.Z" >&2; exit 2; }
+[[ "$BUILD_NUMBER" =~ ^[0-9]+$ ]] || { echo "BUILD_NUMBER must be numeric" >&2; exit 2; }
 
 INSTALL=false
 LAUNCH=false
@@ -91,7 +94,9 @@ cp "$SCRIPT_DIR/Sources/Resources/Info.plist" "$APP_BUNDLE/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" "$APP_BUNDLE/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c "Set :LSMinimumSystemVersion 14.0" "$APP_BUNDLE/Contents/Info.plist"
 
-codesign --force --sign - "$APP_BUNDLE" 2>/dev/null || true
+cp "$SCRIPT_DIR/LICENSE" "$APP_BUNDLE/Contents/Resources/"
+codesign --force --sign - "$APP_BUNDLE"
+codesign --verify --strict "$APP_BUNDLE"
 echo "       App bundle: $APP_BUNDLE"
 
 OPEN_TARGET="$APP_BUNDLE"

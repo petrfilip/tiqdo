@@ -43,6 +43,31 @@ Drag between lanes as priorities shift. That's it.
 - Apple Silicon or Intel Mac
 - Xcode Command Line Tools (`xcode-select --install`)
 
+## Install with Homebrew
+
+```bash
+brew install --cask petrfilip/tap/tiqdo
+open /Applications/Tiqdo.app
+```
+
+Homebrew downloads a versioned, checksum-verified source archive, builds and
+ad-hoc signs the app locally, and installs it in `/Applications`. No Apple
+Developer Program membership or additional Swift packages are required.
+
+To update or uninstall:
+
+```bash
+brew update
+brew upgrade --cask tiqdo
+brew uninstall --cask tiqdo
+```
+
+Tasks and history in `~/Library/Application Support/Tiqdo` are preserved.
+The bundle identifier is `cz.tix.tiqdo`. On first launch, preferences from the
+old `cz.fg.tiqdo` installation are copied if the new app has no preferences yet.
+If you previously installed with `./build.sh --install`, quit Tiqdo and remove
+only the old `/Applications/Tiqdo.app` symlink before installing with Homebrew.
+
 ## Build & Install
 
 ```bash
@@ -66,6 +91,19 @@ To launch:
 ```
 
 On first launch, macOS may block the app. Go to **System Settings > Privacy & Security > Open Anyway**.
+
+## Checks and releases
+
+Run `bin/test` to check preference migration and build script validation.
+Set `APP_VERSION` and `BUILD_NUMBER` when building another release:
+
+```bash
+APP_VERSION=1.0.1 BUILD_NUMBER=2 ./build.sh
+```
+
+Publish each source archive once in this repository's GitHub Releases, then
+update the version and SHA-256 in the tap's `Casks/tiqdo.rb`. Never replace an
+existing release archive; publish a new version instead.
 
 ## License
 

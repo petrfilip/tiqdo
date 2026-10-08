@@ -1,0 +1,14 @@
+#!/bin/bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+mkdir -p .build/ModuleCache
+swiftc -module-cache-path .build/ModuleCache \
+    Sources/Utilities/PersistenceManager.swift \
+    Sources/Models/{TiqTask,TiqTab,Lane,HistoryRecord}.swift Tests/main.swift \
+    -o .build/preference-tests
+.build/preference-tests
+bash -n build.sh
+if APP_VERSION=invalid bash build.sh >/dev/null 2>&1; then echo "Invalid version accepted" >&2; exit 1; fi
+if BUILD_NUMBER=invalid bash build.sh >/dev/null 2>&1; then echo "Invalid build number accepted" >&2; exit 1; fi
+if bash build.sh --unknown >/dev/null 2>&1; then echo "Unknown option accepted" >&2; exit 1; fi
+echo "Build script checks passed"

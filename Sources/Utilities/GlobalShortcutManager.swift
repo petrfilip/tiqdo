@@ -8,7 +8,7 @@ final class GlobalShortcutManager {
     private var hotKeyRef: EventHotKeyRef?
     private var handler: (() -> Void)?
     private var eventHandlerRef: EventHandlerRef?
-    private let logger = Logger(subsystem: "cz.fg.tiqdo", category: "GlobalShortcut")
+    private let logger = Logger(subsystem: "cz.tix.tiqdo", category: "GlobalShortcut")
 
     private init() {}
 
