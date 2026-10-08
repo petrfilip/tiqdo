@@ -47,12 +47,13 @@ Drag between lanes as priorities shift. That's it.
 
 ```bash
 brew install --cask petrfilip/tap/tiqdo
-open /Applications/Tiqdo.app
+tiqdo
 ```
 
 Homebrew downloads a versioned, checksum-verified source archive, builds and
-ad-hoc signs the app locally, and installs it in `/Applications`. No Apple
-Developer Program membership or additional Swift packages are required.
+ad-hoc signs the app locally, installs it in `/Applications`, and adds the
+`tiqdo` launcher. No Apple Developer Program membership or additional Swift
+packages are required.
 
 To update or uninstall:
 
